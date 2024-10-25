@@ -40,10 +40,6 @@ Please refer the folder **application** for the experiments we did for disease-s
 
 Please refer the folder **reproduce** for experiments to reproduce the figures we have in this manuscript.
 
-## License
-
-We follow the MIT liscence.
-
 ## Contact
 
 If you have any questions, please contact Tianyu Liu (tianyu.liu@yale.edu) or Edward De Brouwer (edward.debrouwer@gmail.com).
