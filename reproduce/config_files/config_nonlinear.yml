@@ -1,0 +1,77 @@
+model:
+  masking_strategy:
+    class_path: cellm.components.masking.MaskRandomGenes
+    init_args:
+      mask_p: 0.5
+  num_genes: 28231
+  lr: 1e-04
+  weight_decay: 1e-4
+  dropout: 0.0
+  text_emb: False
+  attn: 'nonlinear_attn'
+  n_dim: 1024 # past 1024
+  classify_mode: 'multilabel' #'multilabel' #'binary'
+  num_layers: 1 # only for transformer
+  label_smoothing: 0
+  logit_adjustment: False
+  batchnorm: False
+  residual: False
+  include_tissue: False
+  uncertainty: False
+  noise_robust: False
+  label_weight: True
+  mask_training: False
+  n_hidden: 512
+  n_hidden_num: 2
+  contras: False
+  contras_ct: False
+  decoupling: False
+  gmlp_seqlen: 100
+
+data:
+  cell_tdb_uri: /projects/global/gred/resbioai/CeLLM/tiledb/scimilarity_human_10x_cell_metadata
+  counts_tdb_uri: /projects/global/gred/resbioai/CeLLM/tiledb/scimilarity_human_10x_counts
+  gene_tdb_uri: /projects/global/gred/resbioai/CeLLM/tiledb/scimilarity_human_10x_gene_metadata
+  gene_order: /gstore/data/omni/scdb/cleaned_h5ads/gene_order.tsv
+  val_studies: null
+  # test_studies: null
+  label_column: celltype_id
+  study_column: study
+  sample_column: sample
+  batch_size: 128
+  sample_size: 1500
+  num_workers: 16
+  pad_size: null
+  precompute_val_test_masking: False
+  handle_imbalance: False #False
+  classify_mode: 'multilabel' #'multilabel' #'binary'
+  resample: False
+  tissue_clean: False
+  gene_name: genes
+  simple_mode: False
+
+trainer:
+  devices: 1
+  accelerator: gpu
+  max_epochs: 10
+  check_val_every_n_epoch: 1
+  # log_every_n_steps: 1
+  strategy: 'auto'
+  logger:
+    class_path: lightning.pytorch.loggers.WandbLogger
+    init_args:
+      save_dir: /home/liut61/scratch/disease_class/log/ #remember to modify this to your own home path.
+      project: disease_class
+      entity: scaliag
+      log_model: all
+      name: null
+  callbacks:
+      class_path: ModelCheckpoint 
+      init_args:
+        dirpath: /home/liut61/scratch/disease_class/
+        filename: "disease2classlr1e4_wd1e-4_batch128_epoch10_drop0.0_cells1500_mutlilabel_nonlinear_{epoch:02d}-{val_accuracy:.2f}"
+        save_weights_only: True
+        save_last: True
+        mode: 'max' 
+        monitor: 'val_accuracy'
+        save_top_k: 4
