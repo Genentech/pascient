@@ -3,7 +3,7 @@ from typing import List, Optional
 
 import torch
 from lightning import LightningDataModule
-from scimilarity_gred.tiledb_sample_data_models import SampleCellsDataModule_disease, scDataset_disease
+from scimilarity.tiledb_sample_data_models import SampleCellsDataModule_disease, scDataset_disease
 from torch.utils.data import Dataset, DataLoader
 
 # from cellm.data.data_structures import CellSample

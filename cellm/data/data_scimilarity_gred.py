@@ -17,7 +17,7 @@ import pickle
 from imblearn.over_sampling import RandomOverSampler ,SVMSMOTE
 from imblearn.under_sampling import RandomUnderSampler
 
-from scimilarity_gred.tiledb_sample_data_models import query_tiledb_df, import_cell_ontology, get_id_mapper, scDataset
+from scimilarity.tiledb_sample_data_models import query_tiledb_df, import_cell_ontology, get_id_mapper, scDataset
 
 
 # Turn off multithreading to allow multiple pytorch dataloader workers
