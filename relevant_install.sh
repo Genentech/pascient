@@ -1,7 +1,5 @@
 #!/bin/bash
+git clone https://github.com/Genentech/scimilarity.git
 cd scimilarity
-pip install .
-cd ../
-cd scimilarity_gred
 pip install .
 cd ../
