@@ -1,6 +1,6 @@
 # PaSCient: Learning multi-cellular representations of single-cell transcriptomics data enables characterization of patient-level disease states
 
-![](figure1.png)
+![](figure1.jpeg)
 
 ## Setup environment
 
