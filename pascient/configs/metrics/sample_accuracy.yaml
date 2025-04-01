@@ -1,0 +1,6 @@
+sample_accuracy:
+  _target_: pascient.components.metrics.AccuracyMetric
+  name: sample_accuracy
+  labels: ${model.losses.sample_prediction_loss.labels}
+  num_classes: ${model.patient_predictor.output_dim}
+  task: multiclass

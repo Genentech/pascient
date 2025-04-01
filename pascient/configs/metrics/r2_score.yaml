@@ -1,0 +1,4 @@
+r2_score:
+  _target_: pascient.components.metrics.R2ScoreMetric
+  name: r2_score #name of the metric
+  num_outputs: 1

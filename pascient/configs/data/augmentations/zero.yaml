@@ -1,0 +1,2 @@
+defaults: #no augmentations
+ - _self_

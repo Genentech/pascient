@@ -1,0 +1,5 @@
+depth_augmentation:
+  _target_: cellm.data.data_augmentations.DepthAugmentation
+  _partial_: true
+  n_views: 1
+  N_range: [500,5000] 

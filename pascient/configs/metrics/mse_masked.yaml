@@ -1,0 +1,3 @@
+mse_masked:
+  _target_: pascient.components.metrics.MSEMaskMetric
+  name: mse_masked #name of the metric

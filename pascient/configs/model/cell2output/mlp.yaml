@@ -1,0 +1,5 @@
+_target_: pascient.components.cell_to_output.CellToOutputMLP
+input_dim: ${model.gene2cell_encoder.hidden_dim} 
+output_dim: ${model.num_genes}
+hidden_dim: [128, 128]
+

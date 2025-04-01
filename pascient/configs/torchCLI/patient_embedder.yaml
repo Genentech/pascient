@@ -1,0 +1,77 @@
+model:
+  masking_strategy:
+    class_path: pascient.components.masking.MaskRandomGenes
+    init_args:
+      mask_p: 0.4
+  num_genes: 28231
+  lr: 1e-04
+  weight_decay: 1e-04
+  #cross_mask_loss: True # masking across cells and reconstruction from cells in the same tissue.
+  #contrastive_loss: False
+  #sample_contrastive_loss: False  # applying contrastive loss on resampled versions of each sample.
+  #dropout: 0.0
+  #patient_embedding_strategy: mean
+  #latent_dim: 1024
+  #n_layers: 4
+  #n_heads: 4
+
+data:
+  cell_tdb_uri: "/projects/global/gred/resbioai/CeLLM/tiledb/cellarr_scimilarity_complete/cell_metadata"
+  gene_tdb_uri:  "/projects/global/gred/resbioai/CeLLM/tiledb/cellarr_scimilarity_complete/gene_annotation"
+  counts_tdb_uri: "/projects/global/gred/resbioai/CeLLM/tiledb/cellarr_scimilarity_complete/counts"
+  gene_order: "/gstore/data/omni/scdb/cleaned_h5ads/gene_order.tsv"
+  #cell_tdb_uri: /projects/global/gred/resbioai/CeLLM/tiledb/scimilarity_human_10x_cell_metadata #/gstore/data/omni/scdb/tiledb/scimilarity_human_10x_cell_metadata
+  #counts_tdb_uri: /projects/global/gred/resbioai/CeLLM/tiledb/scimilarity_human_10x_counts #/gstore/data/omni/scdb/tiledb/scimilarity_human_10x_counts
+  #gene_tdb_uri: /projects/global/gred/resbioai/CeLLM/tiledb/scimilarity_human_10x_gene_metadata #/gstore/data/omni/scdb/tiledb/scimilarity_human_10x_gene_metadata
+  #gene_order: /gstore/data/omni/scdb/cleaned_h5ads/gene_order.tsv
+  val_studies: null
+  # test_studies: null
+  label_id_column: celltype_id
+  study_column: study
+  sample_column: cellarr_sample
+  batch_size: 4
+  sample_size: 200
+  num_workers: 0
+  sampler_cls: 
+    class_path: pascient.components.misc.PartialClass
+    init_args:
+      ref_class: pascient.data.data_samplers.BaseSampler
+  output_map:
+    class_path: pascient.data.batch_mappers.BatchMapper
+    init_args:
+      pad_size: 200
+      sample_labels: ["disease"]
+      cell_labels: ["celltype_id"]
+  cached_db: /projects/global/gred/resbioai/CeLLM/tiledb/small_db/
+  overwrite_cache: False
+
+trainer:
+  devices: 1
+  accelerator: gpu
+  max_epochs: 50
+  check_val_every_n_epoch: 1
+  # log_every_n_steps: 1
+  strategy: 'auto'
+  logger:
+    class_path: lightning.pytorch.loggers.WandbLogger
+    init_args:
+      save_dir: /home/debroue1/scratch/disease_class/log/ #remember to modify this to your own home path.
+      project: cell-plm 
+      entity: debroue1
+      log_model: False
+      name: null
+  callbacks:
+      class_path: ModelCheckpoint
+      init_args:
+        dirpath: /home/debroue1/scratch/disease_class/
+        filename: "disease2classlr1e4_wd1e4_batch32_epoch4_drop0.0_cells1500_multilabel_updatelabel_new5121024_diseasetissue_nonlinear-attn_new_{epoch:02d}-{val_accuracy:.2f}" 
+        save_weights_only: True
+        save_last: True
+        mode: 'min' 
+        monitor: 'val/loss'
+        save_top_k: 1
+      # class_path: EarlyStopping
+      # init_args:
+      #   patience: 5
+      #   mode: 'max' 
+      #   monitor: 'val_accuracy'

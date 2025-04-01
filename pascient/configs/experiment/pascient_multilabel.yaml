@@ -1,0 +1,71 @@
+# @package _global_
+
+
+defaults:
+  - override /data: pascient
+  - override /data/augmentations: zero
+  - override /model: sample_predictor
+  - override /callbacks: default
+  - override /trainer: default
+  - override /metrics:
+    - sample_accuracy
+  - override /model/cell2patient_aggregation:
+    - non_linear_attn.yaml
+  - override /model/patient_encoder:
+    - basic
+  - override /model/patient_predictor:
+    - linear
+  - override /model/gene2cell_encoder:
+    - linear
+  - override /model/cell2cell_encoder:
+    - identity
+  - override /model/cell2output:
+    - dummy
+  - override /logger: wandb
+  - override /model/losses/sample_prediction_loss:
+    - categorical
+
+model:
+  cell_contrastive_strategy: "classic"
+  masking_strategy: 
+    mask_p: 0.
+  gene2cell_encoder:
+    output_dim: 1024
+  patient_encoder:
+    n_hidden_layers: 0
+    activation_cls:
+      _target_: torch.nn.PReLU
+      _partial_: true
+    activation_out_cls:
+      _target_: torch.nn.PReLU
+      _partial_: true
+  patient_predictor:
+    output_dim: 9
+  losses:
+    sample_prediction_loss:
+      labels: ["disease"]
+      loss_fn:
+        weight: [57,5, 268, 59, 1443, 48, 20, 11, 30]
+  optimizer:
+    lr: 0.0001
+    weight_decay: 0.0001 
+
+trainer:
+  max_epochs: 4
+
+callbacks:
+  model_checkpoint:
+    save_top_k: 4 # save k best models (determined by above metric)
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ["pascient","multilabel"]
+
+seed: 12345
+
+experiment_name: "pascient-multilabel"
+
+
+
+

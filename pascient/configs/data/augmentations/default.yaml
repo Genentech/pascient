@@ -1,0 +1,3 @@
+defaults:
+ - depth_augmentation
+ - _self_

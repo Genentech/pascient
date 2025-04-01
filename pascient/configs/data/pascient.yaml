@@ -1,0 +1,48 @@
+_target_: pascient.data.data_scimilarity.PatientCellsDataModule
+cell_tdb_uri: ${paths.tiledb_dir}/scimilarity_human_10x_cell_metadata
+matrix_tdb_uri: ${paths.tiledb_dir}/scimilarity_human_10x_counts
+gene_tdb_uri: ${paths.tiledb_dir}/scimilarity_human_10x_gene_metadata
+gene_order: "${paths.data_dir}/gene_order.tsv"
+val_studies: null
+test_studies: null
+label_id_column: disease
+study_column: study
+sample_column: sample
+gene_column: genes
+extra_columns: ["tissue","celltype_id"]
+remove_new_val_labels: False
+lognorm: true
+batch_size: 32
+sample_size: 1500
+num_workers: 16
+num_genes: 28231
+persistent_workers: true #false by default in pytorch
+oversampling: ["disease","tissue"]
+multiprocessing_context: null #set to null to desactivate
+sampler_cls: 
+  _target_: pascient.data.data_samplers.OverSamplerPerAttribute
+  _partial_: true
+  attributes: ["disease","tissue"]
+  sample_col: "study::::sample"
+output_map:
+  _target_: pascient.data.batch_mappers.PaSCientDiseaseMapper
+  pad_size: ${data.sample_size}
+  sample_labels: [ ["study::::sample","categorical"], ["disease","categorical"], ["tissue","categorical"]]
+  cell_labels: [["celltype_id","categorical"]] 
+  return_ontology: False
+  return_index: False
+  disease_dict: ${paths.data_dir}disease_loader_overlap9.pickle
+cached_db: null
+overwrite_cache: False
+dataset_cls:
+  _target_: pascient.data.data_scimilarity.scDatasetAugmented
+  _partial_: true
+  n_views_per_sample: 1 
+  overlap_samples: True
+dataset_name: "pascient_multilabel"
+val_studies_paths: 
+  val: ${paths.data_dir}/validation_studies/val_study_commondisease10.json
+  test: ${paths.data_dir}/validation_studies/test_study_commondisease10.json
+
+defaults:
+  - augmentations: default

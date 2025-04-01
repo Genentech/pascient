@@ -1,0 +1,9 @@
+_target_: pascient.components.basic_models.BasicMLP
+input_dim: ${model.gene2cell_encoder.hidden_dim} 
+hidden_dim: ${eval:'${model.gene2cell_encoder.hidden_dim}//2'}
+output_dim: ${eval:'${model.gene2cell_encoder.hidden_dim}//2'} 
+n_hidden_layers: 1
+activation_cls:
+  _target_: torch.nn.ReLU
+  _partial_: true
+activation_out_cls: null

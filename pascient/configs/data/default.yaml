@@ -1,0 +1,37 @@
+_target_: pascient.data.data_scimilarity.PatientCellsDataModule
+cell_tdb_uri: "/braid/cellm/tiledb/cellarr_scimilarity_complete/cell_metadata"
+gene_tdb_uri:  "/braid/cellm/tiledb/cellarr_scimilarity_complete/gene_annotation"
+matrix_tdb_uri: "/braid/cellm/tiledb/cellarr_scimilarity_complete/counts"
+gene_order: "/braid/cellm/gene_order.tsv"
+val_studies: null
+test_studies: null
+label_id_column: celltype_id
+study_column: study
+sample_column: cellarr_sample
+remove_new_val_labels: False
+batch_size: 32
+sample_size: 250
+num_workers: 8
+num_genes: 28231
+persistent_workers: true #false by default in pytorch
+multiprocessing_context: spawn #set to null to desactivate
+sampler_cls: 
+  _target_: pascient.data.data_samplers.BaseSampler
+  _partial_: true
+output_map:
+  _target_: pascient.data.batch_mappers.BatchMapper
+  pad_size: ${data.sample_size}
+  sample_labels: [ ["study::::sample","categorical"], ["disease","categorical"], ["tissue","categorical"]]
+  cell_labels: [["celltype_id":"categorical"]] 
+  return_ontology: true
+cached_db: "s3://prescient-pcluster-data/braid/cellm/smalldb/"
+overwrite_cache: False
+dataset_cls:
+  _target_: pascient.data.data_scimilarity.scDatasetAugmented
+  _partial_: true
+  n_views_per_sample: 2
+  overlap_samples: False
+dataset_name: "scimilarity"
+
+defaults:
+  - augmentations: default

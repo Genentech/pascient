@@ -1,0 +1,38 @@
+model:
+  masking_strategy:
+    class_path: pascient.components.masking.MaskRandomGenes
+    init_args:
+      mask_p: 0.5
+  num_genes: 28231
+  lr: 1e-04
+  weight_decay: 0
+
+data:
+  cell_tdb_uri: /gpfs/scratchfs01/site/u/kuot/tiledb/scimilarity_human_10x_cell_metadata
+  counts_tdb_uri: /gpfs/scratchfs01/site/u/kuot/tiledb/scimilarity_human_10x_counts
+  gene_tdb_uri: /gpfs/scratchfs01/site/u/kuot/tiledb/scimilarity_human_10x_gene_metadata
+  gene_order: /gstore/data/omni/scdb/cleaned_h5ads/gene_order.tsv
+  val_studies: null
+  label_column: celltype_id
+  study_column: study
+  sample_column: sample
+  batch_size: 8
+  sample_size: 100
+  num_workers: 8
+  pad_size: null
+  precompute_val_test_masking: False
+
+
+trainer:
+  devices: 1
+  accelerator: gpu
+  max_epochs: 30
+  check_val_every_n_epoch: 1
+  logger:
+    class_path: lightning.pytorch.loggers.WandbLogger
+    init_args:
+      save_dir: /home/scaliag/scratch/cellm/log/
+      project: cellm
+      entity: scaliag
+      log_model: all
+      name: null

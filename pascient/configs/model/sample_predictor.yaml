@@ -1,0 +1,47 @@
+defaults:
+  - gene2cell_encoder: basic
+  - patient_encoder: basic
+  - cell2patient_aggregation: mean
+  - cell2cell_encoder: identity
+  - cell2output: null
+  - patient_predictor: basic
+  - losses: default
+
+_target_: pascient.model.sample_predictor.SamplePredictor
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  _partial_: true
+  mode: min
+  factor: 0.1
+  patience: 20
+
+#masking_strategy: 
+#  _target_: pascient.components.masking.MaskRandomGenes
+#  mask_p: 0.4
+#  mask_token: 0
+#  views: ['view_0']
+
+masking_strategy: 
+  _target_: pascient.components.masking.DummyMasking
+
+
+cell_decoder: null
+
+num_genes: ${data.num_genes}
+dropout: 0. 
+#cross_mask_loss: 0.
+#cell_contrastive_loss: 0. 
+#sample_contrastive_loss: 0.
+#sample_prediction_loss: 1.
+
+cell_contrastive_strategy: "classic"
+
+# compile model for faster training with pytorch 2.0
+compile: false

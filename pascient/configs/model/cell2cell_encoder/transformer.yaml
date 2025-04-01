@@ -1,0 +1,5 @@
+_target_: pascient.components.cell_to_cell.CellToCellPytorchTransformer
+n_heads: 4
+num_layers: 3
+single_cell_only: false
+input_dim: ${model.gene2cell_encoder.hidden_dim} 

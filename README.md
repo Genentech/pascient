@@ -1,49 +1,48 @@
 # PaSCient: Learning multi-cellular representations of single-cell transcriptomics data enables characterization of patient-level disease states
 
 
-
-## Installation
-
-To install the related packages for model training, please use:
-
+## Setup environment
 
 ```
-conda env create -f env.yml --name pascient
+conda create -n pascient python=3.11
 ```
 
-for creating the environment, and then:
-
+## Install
 ```
-bash relevant_install.sh
-```
-
-for installing the helper packages, and then:
-
-```
-pip install -e .
+pip install -r requirements.txt
 ```
 
-for installing the target package.
+## Train a PaSCient model
 
 
-## Training
-
-To train the model, use the current path, and then run:
+`cd /pascient/scripts/`
 
 ```
-python cellm/scripts/train_classification_model.py fit --config cellm/configs/disease_classifier.yaml --trainer.logger.save_dir <SAVE_DIRECTORY> --trainer.logger.project <PROJECT_NAME> --trainer.logger.entity <ENTITY_NAME>
+HYDRA_FULL_ERROR=1 python train.py data.persistent_workers=True data.multiprocessing_context=null data.num_workers=12 experiment=pascient_multilabel paths.tiledb_dir=YOUR_PATH_TO_YOUR_TILEDB
 ```
 
-## Application
+You will need to provide the path to your tiledb.
 
-Please refer the folder **application** for the experiments we did for disease-state prediction, severity analysis and response prediction.
+## PaSCient inference
 
-Please refer the folder **reproduce** for experiments to reproduce the figures we have in this manuscript.
+We provide a notebook with examples on how to run PaSCient on your data in `pascient/notebooks/paper_figures/model_inference_example.ipynb`
+
+## Request model weights
+
+Model weights are available upon request to `debroue1@gene.com`
+
+
+## Figures reproduction
+
+Figures were generated using the notebooks in  `pascient/notebooks/paper_figures/`
+
+- `UMAP.ipynb` reproduces Figure 3 of the paper
+- `IG.ipynb` reproduces Figure 4 of the paper
+- `severity.ipynb` reproduces Figure 5 of the paper
+
 
 ## Contact
 
-If you have any questions, please contact Tianyu Liu (tianyu.liu@yale.edu) or Edward De Brouwer (edward.debrouwer@gmail.com).
+If you have any questions, please contact Tianyu Liu (tianyu.liu@yale.edu) or Edward De Brouwer (debroue1@gene.com).
 
-## Citation
 
-...

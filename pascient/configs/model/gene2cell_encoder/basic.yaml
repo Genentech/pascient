@@ -1,0 +1,5 @@
+_target_: pascient.components.basic_models.BasicMLP
+input_dim: ${model.num_genes}
+hidden_dim: 512
+output_dim: ${model.gene2cell_encoder.hidden_dim}
+n_hidden_layers: 2

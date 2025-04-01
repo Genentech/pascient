@@ -1,0 +1,3 @@
+defaults:
+  - linear_probe
+  - _self_

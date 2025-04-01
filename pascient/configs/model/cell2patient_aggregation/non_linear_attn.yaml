@@ -1,0 +1,10 @@
+_target_: pascient.components.aggregators.NonLinearAttnAggregator
+attention_model:
+  _target_: pascient.components.basic_models.BasicMLP
+  input_dim: ${model.gene2cell_encoder.hidden_dim} 
+  hidden_dim: 1024
+  output_dim: 1
+  n_hidden_layers: 0
+  activation_cls:
+    _target_: torch.nn.Tanh
+    _partial_: true

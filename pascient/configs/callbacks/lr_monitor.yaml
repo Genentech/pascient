@@ -1,0 +1,7 @@
+# https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.LearningRateMonitor.html
+
+lr_monitor:
+  _target_: lightning.pytorch.callbacks.LearningRateMonitor
+  logging_interval: 'epoch' # 'step' or 'epoch'
+  log_momentum: True # log the momentum of the optimizer
+  log_weight_decay: True # log the weight decay of the optimizer

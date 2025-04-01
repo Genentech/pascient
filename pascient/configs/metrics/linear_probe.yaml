@@ -1,0 +1,5 @@
+linear_probe:
+  _target_: pascient.components.metrics.LinearProbeMetric
+  name: linear_probe_acc #name of the metric
+  target_name: tissue #target to use for linear probe
+  view_name: view_0 #view to use for linear probe

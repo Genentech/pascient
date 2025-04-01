@@ -1,0 +1,2 @@
+_target_: pascient.components.aggregators.MeanAggregator
+dim: 2

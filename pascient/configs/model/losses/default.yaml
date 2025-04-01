@@ -1,0 +1,7 @@
+defaults:
+  - sample_prediction_loss: continuous 
+
+#cross_mask_loss: 0.
+#cell_contrastive_loss: 0. 
+#sample_contrastive_loss: 0.
+#sample_prediction_loss: 1.
